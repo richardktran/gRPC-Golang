@@ -10,7 +10,7 @@ message SumRequest {
 }
 
 message SumResponse {
-    int32 sum=1;
+    int32 result=1;
 }
 
 service CalculatorService {

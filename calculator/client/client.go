@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 
 	"github.com/richardktran/grpc-golang/calculator/calculatorpb"
@@ -19,5 +20,19 @@ func main() {
 
 	client := calculatorpb.NewCalculatorServiceClient(cc)
 
-	log.Printf("Created client: %f", client)
+	callSum(client)
+}
+
+func callSum(c calculatorpb.CalculatorServiceClient) {
+	log.Println("Calling to do a Sum RPC...")
+	resp, err := c.Sum(context.Background(), &calculatorpb.SumRequest{
+		Num1: 3,
+		Num2: 10,
+	})
+
+	if err != nil {
+		log.Fatalf("Error while calling Sum RPC: %v", err)
+	}
+
+	log.Printf("Response from Sum: %v\n", resp.Result)
 }
