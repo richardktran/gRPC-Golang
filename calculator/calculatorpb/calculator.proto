@@ -13,6 +13,15 @@ message SumResponse {
     int32 result=1;
 }
 
+message PNRequest {
+    int32 number = 1;
+}
+
+message PNResponse {
+    int32 result = 1;
+}
+
 service CalculatorService {
     rpc Sum(SumRequest) returns (SumResponse);
+    rpc PrimeNumberDecomposition(PNRequest) returns (stream PNResponse);
 }
