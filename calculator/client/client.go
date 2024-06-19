@@ -4,6 +4,7 @@ import (
 	"context"
 	"io"
 	"log"
+	"time"
 
 	"github.com/richardktran/grpc-golang/calculator/calculatorpb"
 	"google.golang.org/grpc"
@@ -21,7 +22,7 @@ func main() {
 
 	client := calculatorpb.NewCalculatorServiceClient(cc)
 
-	callPND(client)
+	callAverage(client)
 }
 
 func callSum(c calculatorpb.CalculatorServiceClient) {
@@ -57,4 +58,39 @@ func callPND(client calculatorpb.CalculatorServiceClient) {
 
 		log.Printf("Prime number %v\n", resp.GetResult())
 	}
+}
+
+func callAverage(client calculatorpb.CalculatorServiceClient) {
+	log.Println("calling avg API")
+
+	stream, err := client.Average(context.Background())
+
+	if err != nil {
+		log.Fatalf("Error while calling Average RPC: %v", err)
+	}
+
+	listReq := []calculatorpb.AverageRequest{
+		{Number: 5},
+		{Number: 2},
+		{Number: 3},
+		{Number: 4},
+	}
+
+	for _, req := range listReq {
+		err := stream.Send(&req)
+
+		if err != nil {
+			log.Fatalf("Error while sending request to server: %v", err)
+		}
+
+		time.Sleep(1000 * time.Millisecond)
+	}
+
+	res, err := stream.CloseAndRecv()
+
+	if err != nil {
+		log.Fatalf("Error while receiving response from server: %v", err)
+	}
+
+	log.Printf("Average is %v\n", res.GetResult())
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"time"
@@ -45,6 +46,34 @@ func (*server) PrimeNumberDecomposition(req *calculatorpb.PNRequest, stream calc
 	}
 
 	return nil
+}
+
+func (*server) Average(stream calculatorpb.CalculatorService_AverageServer) error {
+	total := int32(0)
+	cnt := int32(0)
+	for {
+		req, err := stream.Recv()
+
+		if err == io.EOF {
+			log.Println("Server finished streaming")
+			resp := &calculatorpb.AverageResponse{
+				Result: float32(total) / float32(cnt),
+			}
+			stream.SendAndClose(resp)
+			return nil
+		}
+
+		if err != nil {
+			log.Fatalf("Error while reading client stream: %v", err)
+			return err
+		}
+
+		n := req.GetNumber()
+		total += n
+		cnt++
+
+		log.Printf("Received number: %v\n", n)
+	}
 }
 
 func main() {
