@@ -1,5 +1,10 @@
 {
     "cSpell.words": [
         "calculatorpb"
-    ]
+    ],
+    "protoc": {
+        "options": [
+            "--proto_path=${workspaceFolder}/proto",
+        ]
+    },
 }

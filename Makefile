@@ -1,6 +1,4 @@
-gen-cal:
-	protoc calculator/calculatorpb/calculator.proto --go_out=. --go-grpc_out=.
-run-server:
-	go run calculator/server/server.go
-run-client:
-	go run calculator/client/client.go
+protoc:
+	cd proto && protoc --go_out=../protogen/golang --go_opt=paths=source_relative \
+	--go-grpc_out=../protogen/golang --go-grpc_opt=paths=source_relative \
+	./**/*.proto
