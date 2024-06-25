@@ -2,3 +2,6 @@ http:
   address: ":8080"
 grpc:
   address: ":50051"
+gateway:
+  address: ":8080"
+  server_address: "localhost:50051"

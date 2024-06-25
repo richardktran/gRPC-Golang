@@ -11,8 +11,9 @@ import (
 type ConfigFilePath string
 
 type Config struct {
-	HTTP HTTP `yaml:"http"`
-	GRPC GRPC `yaml:"grpc"`
+	HTTP    HTTP    `yaml:"http"`
+	GRPC    GRPC    `yaml:"grpc"`
+	Gateway Gateway `yaml:"gateway"`
 }
 
 func NewConfig(filePath ConfigFilePath) (Config, error) {
