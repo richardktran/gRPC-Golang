@@ -1,0 +1,4 @@
+http:
+  address: ":8080"
+grpc:
+  address: ":50051"

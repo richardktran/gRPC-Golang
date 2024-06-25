@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	database "github.com/richardktran/grpc-golang/internal/db"
+	"github.com/richardktran/grpc-golang/internal/database"
 	"github.com/richardktran/grpc-golang/protogen/golang/orders"
 )
 
