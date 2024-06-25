@@ -20,11 +20,21 @@ message PayloadWithSingleOrder {
     Order order = 1;
 }
 
+message PayloadWithOrderId {
+    uint64 order_id = 1;
+}
+
 service OrderService {
-    rpc CreateOrder(Order) returns (Empty) {
+    rpc CreateOrder(PayloadWithSingleOrder) returns (Empty) {
         option (google.api.http) = {
             post: "/v0/orders",
             body: "*"
+        };
+    }
+
+    rpc GetOrder(PayloadWithOrderId) returns (PayloadWithSingleOrder) {
+        option (google.api.http) = {
+            get: "/v0/orders/{order_id}"
         };
     }
 }

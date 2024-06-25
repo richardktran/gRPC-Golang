@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/richardktran/grpc-golang/protogen/golang/orders"
 )
@@ -23,7 +24,19 @@ func (db *DB) AddOrder(order *orders.Order) error {
 		}
 	}
 
+	log.Printf("Adding order with id %d\n", order.GetOrderId())
+
 	db.collection = append(db.collection, order)
+
+	return nil
+}
+
+func (db *DB) GetOrderByID(orderId uint64) *orders.Order {
+	for _, o := range db.collection {
+		if o.OrderId == orderId {
+			return o
+		}
+	}
 
 	return nil
 }
