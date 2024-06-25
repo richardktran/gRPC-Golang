@@ -1,7 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"log"
+
+	"github.com/richardktran/grpc-golang/internal/configs"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	config, err := configs.NewConfig("configs/local.yaml")
+	if err != nil {
+		log.Fatalf("Can not load config")
+	}
+
+	grpcServer := config.GRPC
+
+	if err := grpcServer.Run(); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
+
 }
