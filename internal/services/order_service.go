@@ -39,3 +39,19 @@ func (s *OrderService) GetOrder(_ context.Context, req *orders.PayloadWithOrderI
 
 	return &orders.PayloadWithSingleOrder{Order: order}, nil
 }
+
+func (s *OrderService) UpdateOrder(_ context.Context, req *orders.PayloadWithSingleOrder) (*orders.Empty, error) {
+	log.Println("Received update order request")
+
+	s.db.UpdateOrder(req.GetOrder())
+
+	return &orders.Empty{}, nil
+}
+
+func (s *OrderService) DeleteOrder(_ context.Context, req *orders.PayloadWithOrderId) (*orders.Empty, error) {
+	log.Println("Received delete order request")
+
+	s.db.DeleteOrder(req.GetOrderId())
+
+	return &orders.Empty{}, nil
+}

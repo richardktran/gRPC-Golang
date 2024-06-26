@@ -40,3 +40,24 @@ func (db *DB) GetOrderByID(orderId uint64) *orders.Order {
 
 	return nil
 }
+
+func (db *DB) UpdateOrder(order *orders.Order) {
+	log.Printf("Updating order with id %d\n", order.GetOrderId())
+	for i, o := range db.collection {
+		if o.OrderId == order.OrderId {
+			db.collection[i] = order
+		}
+	}
+}
+
+func (db *DB) DeleteOrder(orderId uint64) {
+	log.Printf("Deleting order with id %d\n", orderId)
+	newCollection := make([]*orders.Order, 0)
+	for i, o := range db.collection {
+		if o.OrderId != orderId {
+			newCollection = append(newCollection, db.collection[i])
+		}
+	}
+
+	db.collection = newCollection
+}
