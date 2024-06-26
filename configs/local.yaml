@@ -4,4 +4,4 @@ grpc:
   address: ":50051"
 gateway:
   address: ":8080"
-  server_address: "localhost:50051"
+  server_address: "orders-service:50051"

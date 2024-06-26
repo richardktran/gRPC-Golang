@@ -9,7 +9,7 @@ import (
 func main() {
 	config, err := configs.NewConfig("configs/local.yaml")
 	if err != nil {
-		log.Fatalf("Can not load config")
+		log.Fatalf("Can not load config: %v", err)
 	}
 
 	grpcServer := config.GRPC
